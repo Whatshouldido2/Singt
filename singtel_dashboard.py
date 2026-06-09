@@ -17,13 +17,12 @@ TODAY           = datetime.now().strftime("%d %B %Y")
 
 # ── FETCH NEWS ───────────────────────────────────────────────────────────────
 def fetch_news(query, max_articles=6):
-    url = "https://newsapi.org/v2/everything"
+    url = "https://gnews.io/api/v4/search"
     params = {
         "q": query,
-        "sortBy": "publishedAt",
-        "pageSize": max_articles,
-        "language": "en",
-        "apiKey": NEWS_API_KEY,
+        "max": max_articles,
+        "lang": "en",
+        "token": os.environ.get("GNEWS_API_KEY"),
     }
     try:
         response = requests.get(url, params=params, timeout=10)
@@ -34,7 +33,6 @@ def fetch_news(query, max_articles=6):
         return []
 
 def articles_to_text(articles):
-    """Convert articles to plain text for feeding into Gemini."""
     if not articles:
         return "No recent articles found."
     text = ""
@@ -47,7 +45,6 @@ def articles_to_text(articles):
     return text
 
 def render_news_cards(articles):
-    """Render news as HTML cards for the email."""
     if not articles:
         return "<p style='color:#888;'>No recent articles found.</p>"
     cards = ""
