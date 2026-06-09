@@ -1,6 +1,31 @@
-your-repo/
-├── .github/
-│   └── workflows/
-│       └── daily_singtel.yml       ← File 1
-├── singtel_dashboard.py            ← File 3
-└── requirements.txt                ← File 2
+name: Daily Singtel Consultant Dashboard
+
+on:
+  schedule:
+    - cron: '0 1 * * *'  # 9AM SGT daily (1AM UTC)
+  workflow_dispatch:       # Manual trigger option
+
+jobs:
+  send-dashboard:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run dashboard script
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
+          EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_RECIPIENT: ${{ secrets.EMAIL_RECIPIENT }}
+        run: python singtel_dashboard.py
