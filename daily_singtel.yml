@@ -23,7 +23,7 @@ jobs:
 
       - name: Run dashboard script
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+         GNEWS_API_KEY: ${{ secrets.GNEWS_API_KEY }}
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
           EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
