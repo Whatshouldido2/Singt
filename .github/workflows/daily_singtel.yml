@@ -1,0 +1,6 @@
+your-repo/
+├── .github/
+│   └── workflows/
+│       └── daily_singtel.yml       ← File 1
+├── singtel_dashboard.py            ← File 3
+└── requirements.txt                ← File 2
